@@ -26,10 +26,10 @@ advanced-r
 machine-learning
 deep-learning
 text-mining
-sharing-your-book
-publishing
-pages
-metadata-for-sharing
+trade-policy-analysis-with-r
+analyzing-trade-flow
+analyzing-trade-tariff
+the-gravity-model-of-trade
 quantitative-finance-with-r
 modern-portfolio-theory
 financial-models
