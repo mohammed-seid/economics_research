@@ -26,6 +26,7 @@ advanced-r
 machine-learning
 deep-learning
 text-mining
+sentiment-analysis
 trade-policy-analysis-with-r
 analyzing-trade-flow
 analyzing-trade-tariff
