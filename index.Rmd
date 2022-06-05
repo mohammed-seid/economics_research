@@ -8,9 +8,7 @@ bibliography: [book.bib, packages.bib]
 # url: your book url like https://bookdown.org/yihui/bookdown
 # cover-image: path to the social sharing image like images/cover.jpg
 description: |
-  This is a minimal example of using the bookdown package to write a book.
-  The HTML output format for this example is bookdown::gitbook,
-  set in the _output.yml file.
+  We wrote this short book for business analytics students who want to get   started with an initial foundation in deep learning methods. The book is   very much a work in progress, and needs work on reworking many figures,    and also completing all the necessary references and attributions. Please   do not cite or distribute.
 link-citations: yes
 github-repo: rstudio/bookdown-demo
 toc_depth: 2
