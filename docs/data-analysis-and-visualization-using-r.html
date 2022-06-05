@@ -145,8 +145,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html"><i class="fa fa-check"></i><b>1</b> Data Analysis and Visualization using R</a>
 <ul>
 <li class="chapter" data-level="1.1" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html#introduction-to-r-and-r-studio"><i class="fa fa-check"></i><b>1.1</b> Introduction to R and R Studio</a></li>
-<li class="chapter" data-level="1.2" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html#data-transformation"><i class="fa fa-check"></i><b>1.2</b> Data transformation</a></li>
-<li class="chapter" data-level="1.3" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>1.3</b> Exploratory data analysis</a></li>
+<li class="chapter" data-level="1.2" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html#data-transformation"><i class="fa fa-check"></i><b>1.2</b> Data transformation</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html#the-tidyverse"><i class="fa fa-check"></i><b>1.2.1</b> The <code>tidyverse</code></a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html#exploratory-data-analysis"><i class="fa fa-check"></i><b>1.3</b> Exploratory data analysis</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html#gtsummary-package"><i class="fa fa-check"></i><b>1.3.1</b> <code>gtsummary</code> Package</a></li>
+</ul></li>
 <li class="chapter" data-level="1.4" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html#descriptive-analysis"><i class="fa fa-check"></i><b>1.4</b> Descriptive analysis</a></li>
 <li class="chapter" data-level="1.5" data-path="data-analysis-and-visualization-using-r.html"><a href="data-analysis-and-visualization-using-r.html#data-visualization"><i class="fa fa-check"></i><b>1.5</b> Data Visualization</a></li>
 </ul></li>
@@ -224,14 +230,131 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="data-analysis-and-visualization-using-r" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Data Analysis and Visualization using R<a href="data-analysis-and-visualization-using-r.html#data-analysis-and-visualization-using-r" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="data-analysis-and-visualization-using-r.html#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;image&quot;</span>, <span class="st">&quot;trans.png&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-1"></span>
+<img src="image/trans.png" alt="Data anaylsis piepleine" width="100%" />
+<p class="caption">
+Figure 1.1: Data anaylsis piepleine
+</p>
+</div>
 <div id="introduction-to-r-and-r-studio" class="section level2 hasAnchor" number="1.1">
 <h2><span class="header-section-number">1.1</span> Introduction to R and R Studio<a href="data-analysis-and-visualization-using-r.html#introduction-to-r-and-r-studio" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="data-analysis-and-visualization-using-r.html#cb2-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;image&quot;</span>, <span class="st">&quot;appstore.png&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-2"></span>
+<img src="image/appstore.png" alt="R vs R Studio" width="100%" />
+<p class="caption">
+Figure 1.2: R vs R Studio
+</p>
+</div>
 </div>
 <div id="data-transformation" class="section level2 hasAnchor" number="1.2">
 <h2><span class="header-section-number">1.2</span> Data transformation<a href="data-analysis-and-visualization-using-r.html#data-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="the-tidyverse" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> The <code>tidyverse</code><a href="data-analysis-and-visualization-using-r.html#the-tidyverse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <code>tidyverse</code> is a collection of R packages that share common philosophies and are designed to work together.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="data-analysis-and-visualization-using-r.html#cb3-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;image&quot;</span>, <span class="st">&quot;tidyverse.png&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
+<img src="image/tidyverse.png" alt="tidyverse packages" width="100%" />
+<p class="caption">
+Figure 1.3: tidyverse packages
+</p>
+</div>
+<div id="readr-and-haven" class="section level4 hasAnchor" number="1.2.1.1">
+<h4><span class="header-section-number">1.2.1.1</span> <code>readr</code> and <code>haven</code><a href="data-analysis-and-visualization-using-r.html#readr-and-haven" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+</div>
+<div id="the-pipe" class="section level4 hasAnchor" number="1.2.1.2">
+<h4><span class="header-section-number">1.2.1.2</span> The pipe <code>%&gt;%</code><a href="data-analysis-and-visualization-using-r.html#the-pipe" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li>A way to chain together commands</li>
+<li>Can be read as “and then” when reading over code</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data-analysis-and-visualization-using-r.html#cb4-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;image&quot;</span>, <span class="st">&quot;pipe.jpg&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-4"></span>
+<img src="image/pipe.jpg" alt="The Pipe Operator" width="100%" />
+<p class="caption">
+Figure 1.4: The Pipe Operator
+</p>
+</div>
+</div>
+<div id="tidyr" class="section level4 hasAnchor" number="1.2.1.3">
+<h4><span class="header-section-number">1.2.1.3</span> <code>tidyr</code><a href="data-analysis-and-visualization-using-r.html#tidyr" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data-analysis-and-visualization-using-r.html#cb5-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">&quot;image&quot;</span>, <span class="st">&quot;tidy.png&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-5"></span>
+<img src="image/tidy.png" alt="Tidy Data" width="100%" />
+<p class="caption">
+Figure 1.5: Tidy Data
+</p>
+</div>
+</div>
+<div id="dplyr" class="section level4 hasAnchor" number="1.2.1.4">
+<h4><span class="header-section-number">1.2.1.4</span> <code>dplyr</code><a href="data-analysis-and-visualization-using-r.html#dplyr" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The Six Main Verbs (6MV) of data wrangling</p>
+<ul>
+<li><a href="data-analysis-and-visualization-using-r.html#filter"><code>filter()</code></a></li>
+<li><a href="data-analysis-and-visualization-using-r.html#select"><code>select()</code></a></li>
+<li><a href="data-analysis-and-visualization-using-r.html#summarize"><code>summarize()</code></a></li>
+<li><a href="#groupby"><code>group_by()</code></a></li>
+<li><a href="data-analysis-and-visualization-using-r.html#mutate"><code>mutate()</code></a></li>
+<li><a href="data-analysis-and-visualization-using-r.html#arrange"><code>arrange()</code></a></li>
+</ul>
+<div id="filter" class="section level5 hasAnchor" number="1.2.1.4.1">
+<h5><span class="header-section-number">1.2.1.4.1</span> <code>filter()</code><a href="data-analysis-and-visualization-using-r.html#filter" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Select a subset of the rows of a data frame.</li>
+<li>Arguments are “filters” that you’d like to apply.</li>
+<li>Use <code>==</code> to compare a variable to a value.</li>
+<li>Use <code>|</code> to check for any in multiple filters being true.</li>
+<li>Use <code>,</code> to check for all of multiple filters being true.</li>
+<li>Use <code>%in%</code> to check for any being true (shortcut to using <code>|</code> repeatedly with <code>==</code>)</li>
+</ul>
+</div>
+<div id="select" class="section level5 hasAnchor" number="1.2.1.4.2">
+<h5><span class="header-section-number">1.2.1.4.2</span> <code>select()</code><a href="data-analysis-and-visualization-using-r.html#select" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>select variables (columns within a dataframe).</li>
+<li><code>:</code> a range of consecutive variables.
+-<code>starts_with()</code>: variables Starts with a prefix.
+-<code>ends_with()</code>: variables ends with a suffix.
+-<code>contains()</code>: Contains a literal string.</li>
+</ul>
+</div>
+<div id="summarize" class="section level5 hasAnchor" number="1.2.1.4.3">
+<h5><span class="header-section-number">1.2.1.4.3</span> <code>summarize()</code><a href="data-analysis-and-visualization-using-r.html#summarize" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Any numerical summary that you want to apply to a column of a data frame is specified within <code>summarize()</code>.</li>
+</ul>
+</div>
+<div id="combining-summarize-with-group_by" class="section level5 hasAnchor" number="1.2.1.4.4">
+<h5><span class="header-section-number">1.2.1.4.4</span> Combining <code>summarize()</code> with <code>group_by()</code><a href="data-analysis-and-visualization-using-r.html#combining-summarize-with-group_by" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<p>When you’d like to determine a numerical summary for all
+levels of a different categorical variable</p>
+</div>
+<div id="mutate" class="section level5 hasAnchor" number="1.2.1.4.5">
+<h5><span class="header-section-number">1.2.1.4.5</span> <code>mutate()</code><a href="data-analysis-and-visualization-using-r.html#mutate" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Allows you to
+<ol style="list-style-type: decimal">
+<li>create a new variable with a specific value</li>
+<li>create a new variable based on other variables</li>
+<li>change the contents of an existing variable</li>
+</ol></li>
+</ul>
+</div>
+<div id="arrange" class="section level5 hasAnchor" number="1.2.1.4.6">
+<h5><span class="header-section-number">1.2.1.4.6</span> <code>arrange()</code><a href="data-analysis-and-visualization-using-r.html#arrange" class="anchor-section" aria-label="Anchor link to header"></a></h5>
+<ul>
+<li>Reorders the rows in a data frame based on the values of one or more variables</li>
+<li>Can also put into descending order</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div id="exploratory-data-analysis" class="section level2 hasAnchor" number="1.3">
 <h2><span class="header-section-number">1.3</span> Exploratory data analysis<a href="data-analysis-and-visualization-using-r.html#exploratory-data-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="gtsummary-package" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> <code>gtsummary</code> Package<a href="data-analysis-and-visualization-using-r.html#gtsummary-package" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
 </div>
 <div id="descriptive-analysis" class="section level2 hasAnchor" number="1.4">
 <h2><span class="header-section-number">1.4</span> Descriptive analysis<a href="data-analysis-and-visualization-using-r.html#descriptive-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>

@@ -13,4 +13,10 @@ description: |
   set in the _output.yml file.
 link-citations: yes
 github-repo: rstudio/bookdown-demo
+toc_depth: 2
+split_by: section
+number_sections: true
+split_bib: true
 ---
+
+    
