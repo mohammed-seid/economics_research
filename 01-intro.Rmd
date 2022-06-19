@@ -7,6 +7,14 @@ knitr::include_graphics(here::here("image", "trans.png"))
 ```
 
 
+Attractive features of R are:
+
+ * R is free and open source
+ * It runs on all major platforms: Windows, Mac Os, UNIX/Linux.
+ * Scripts and data objects can be shared seamlessly across platforms.
+ * There is a large, growing, and active community of R users and, as a result, there are numerous resources for learning and asking questions7 8 9.
+  * It is easy for others to contribute add-ons which enables developers to share software implementations of new data science methodologies. This gives R users early access to the latest methods and to tools which are developed for a wide variety of disciplines, including ecology, molecular biology, social sciences, and geography, just to name a few examples.
+
 ## Introduction to R and R Studio
 
 

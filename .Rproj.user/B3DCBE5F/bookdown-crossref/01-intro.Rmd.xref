@@ -1,7 +1,19 @@
 h1:data-analysis-and-visualization-using-r Data Analysis and Visualization using R
 h2:introduction-to-r-and-r-studio Introduction to R and R Studio
 h2:data-transformation Data transformation
+h3:the-tidyverse The 
+h4:readr-and-haven  and 
+h4:the-pipe The pipe 
+h4:tidyr 
+h4:dplyr 
+h5:filter 
+h5:select 
+h5:summarize 
+h5:combining-summarize-with-group_by Combining  with 
+h5:mutate 
+h5:arrange 
 h2:exploratory-data-analysis Exploratory data analysis
+h3:gtsummary-package  Package
 h2:descriptive-analysis Descriptive analysis
 h2:data-visualization Data Visualization
 
