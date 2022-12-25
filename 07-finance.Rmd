@@ -1,9 +1,0 @@
-# Quantitative Finance with R
-
-## Modern portfolio theory
-
-## Financial models
-
-## Analyze financial assets to find their Return On Investment (ROI)
-
-## profit-making strategy

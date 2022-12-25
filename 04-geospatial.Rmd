@@ -1,7 +1,0 @@
-# Geospatial analytics using R
-
-## Core concepts, vector data, and plotting
-
-## Spatial analysis
-
-## Raster data

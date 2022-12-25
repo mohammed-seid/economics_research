@@ -1,0 +1,10 @@
+# Regression analysis using R
+
+## Analysis of cross-sectional data
+
+## Analysis of categorical Data 
+
+## Analysis of timeseries data
+
+
+## Analysis of panel data

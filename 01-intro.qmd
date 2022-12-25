@@ -1,0 +1,127 @@
+# Data Analysis and Visualization using R 
+
+
+
+```{r, fig.align = 'center', out.width = "100%", fig.cap = "Data anaylsis piepleine"}
+knitr::include_graphics(here::here("image", "trans.png"))
+```
+
+
+Attractive features of R are:
+
+ * R is free and open source
+ * It runs on all major platforms: Windows, Mac Os, UNIX/Linux.
+ * Scripts and data objects can be shared seamlessly across platforms.
+ * There is a large, growing, and active community of R users and, as a result, there are numerous resources for learning and asking questions7 8 9.
+  * It is easy for others to contribute add-ons which enables developers to share software implementations of new data science methodologies. This gives R users early access to the latest methods and to tools which are developed for a wide variety of disciplines, including ecology, molecular biology, social sciences, and geography, just to name a few examples.
+
+## Introduction to R and R Studio
+
+
+```{r, fig.align = 'center', out.width = "100%", fig.cap = "R vs R Studio"}
+knitr::include_graphics(here::here("image", "appstore.png"))
+```
+
+## Data transformation
+
+
+
+
+
+### The `tidyverse`
+
+The `tidyverse` is a collection of R packages that share common philosophies and are designed to work together. 
+
+
+
+```{r, fig.align = 'center', out.width = "100%", fig.cap = "tidyverse packages"}
+knitr::include_graphics(here::here("image", "tidyverse.png"))
+```
+
+
+
+#### `readr` and `haven`
+
+
+
+#### The pipe `%>%`
+
+- A way to chain together commands
+- Can be read as "and then" when reading over code
+
+
+```{r, fig.align = 'center', out.width = "100%", fig.cap = "The Pipe Operator"}
+knitr::include_graphics(here::here("image", "pipe.jpg"))
+```
+
+
+
+
+
+#### `tidyr`
+
+
+```{r, fig.align = 'center', out.width = "100%", fig.cap = "Tidy Data"}
+knitr::include_graphics(here::here("image", "tidy.png"))
+```
+
+
+
+#### `dplyr`
+
+The Six Main Verbs (6MV) of data wrangling
+
+- [`filter()`](#filter) 
+- [`select()`](#select)
+- [`summarize()`](#summarize)
+- [`group_by()`](#groupby)
+- [`mutate()`](#mutate) 
+- [`arrange()`](#arrange)
+
+##### `filter()`
+
+- Select a subset of the rows of a data frame. 
+- Arguments are "filters" that you'd like to apply.
+- Use `==` to compare a variable to a value.
+- Use `|` to check for any in multiple filters being true.
+- Use `,` to check for all of multiple filters being true.
+- Use `%in%` to check for any being true (shortcut to using `|` repeatedly with `==`)
+
+##### `select()`
+
+ - select variables (columns within a dataframe).
+ - `:` a range of consecutive variables.
+ -`starts_with()`: variables Starts with a prefix.
+ -`ends_with()`: variables ends with a suffix.
+ -`contains()`: Contains a literal string.
+
+##### `summarize()`
+
+- Any numerical summary that you want to apply to a column of a data frame is specified within `summarize()`.
+
+##### Combining `summarize()` with `group_by()`
+
+When you'd like to determine a numerical summary for all
+levels of a different categorical variable
+
+##### `mutate()`
+
+- Allows you to 
+    1. create a new variable with a specific value 
+    2. create a new variable based on other variables
+    3. change the contents of an existing variable
+
+##### `arrange()`
+
+- Reorders the rows in a data frame based on the values of one or more variables
+- Can also put into descending order
+
+
+## Exploratory data analysis 
+
+### `gtsummary` Package
+
+## Descriptive analysis 
+
+
+## Data Visualization 

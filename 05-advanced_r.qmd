@@ -1,0 +1,736 @@
+# Advanced R
+
+## Machine learning
+
+
+### Random Forest
+
+```{r}
+library(caret)
+library(rpart.plot)
+library(tidymodels)
+library(vip)
+library(haven)
+library(here)
+library(ranger)
+```
+
+
+```{r}
+df <- read_dta(here("data", "master_data2.dta"))
+df <- df %>% dplyr::select(household_id, lntot, lneduc, lntot, finance, mobile_own, educ, iddir, marital, religion, age, ag2, gender, hh_size, hh_size2, know_account, wage_self, credit_info, urban, bank_com, educ_com, lndis)  %>% drop_na()
+data<-as_factor(df)
+```
+
+```{r}
+summary(data)
+```
+
+
+split the data into trainng (75%) and testing (25%)
+
+
+```{r}
+set.seed(6598)
+data_split <- initial_split(data, prop = 3/4)
+```
+
+extract training and testing sets
+
+```{r}
+data_train <- training(data_split)
+data_test <- testing(data_split)
+```
+
+At some point we’re going to want to do some parameter tuning, and to do that we’re going to want to use cross-validation. So we can create a cross-validated  version of the training set in preparation for that moment using vfold_cv().
+
+create CV object from training data
+```{r}
+data_cv <- vfold_cv(data_train)
+```
+
+define the recipe
+ 
+```{r}
+data_recipe <- 
+  # which consists of the formula (outcome ~ predictors)
+  recipe(finance ~ mobile_own + educ + iddir + 
+         marital + religion + age + ag2 + gender + hh_size + hh_size2 + know_account +
+         wage_self + credit_info + urban + bank_com + educ_com + lndis, 
+         data = data) %>%
+  # and some pre-processing steps
+  step_normalize(all_numeric()) %>%
+  step_impute_knn(all_predictors())
+```
+
+
+
+
+
+
+```{r}
+rf_model <- 
+  # specify that the model is a random forest
+  rand_forest() %>%
+  # specify that the `mtry` parameter needs to be tuned
+  set_args(mtry = tune()) %>%
+  # select the engine/package that underlies the model
+  set_engine("ranger", importance = "impurity") %>%
+  # choose either the continuous regression or binary classification mode
+  set_mode("classification") 
+```
+
+
+set the workflow
+```{r}
+rf_workflow <- workflow() %>%
+  # add the recipe
+  add_recipe(data_recipe) %>%
+  # add the model
+  add_model(rf_model)
+```
+
+
+specify which values eant to try
+
+```{r}
+rf_grid <- expand.grid(mtry = c(3, 4, 5))
+```
+
+extract results
+
+```{r}
+
+rf_tune_results <- rf_workflow %>%
+  tune_grid(resamples = data_cv, #CV object
+            grid = rf_grid, # grid of values to try
+            metrics = metric_set(accuracy, roc_auc) # metrics we care about
+  )
+```
+
+print results
+
+```{r}
+rf_tune_results %>%
+  collect_metrics()
+```
+
+
+```{r}
+param_final <- rf_tune_results %>%
+  select_best(metric = "accuracy")
+param_final
+```
+
+
+
+```{r}
+rf_workflow <- rf_workflow %>%
+  finalize_workflow(param_final)
+```
+
+
+```{r}
+rf_fit <- rf_workflow %>%
+  # fit on the training set and evaluate on test set
+  last_fit(data_split)
+```
+
+
+
+```{r}
+test_performance <- rf_fit %>% collect_metrics()
+
+test_performance
+```
+
+
+Overall the performance is very good, with an accuracy of 0.83 and an AUC of 0.903.
+
+
+generate predictions from the test set
+
+```{r}
+test_predictions <- rf_fit %>% collect_predictions()
+```
+
+generate a confusion matrix
+
+```{r}
+test_predictions %>% 
+  conf_mat(truth = finance, estimate = .pred_class)
+```
+
+We could also plot distributions of the predicted probability distributions for each class.
+
+```{r}
+colnames(test_predictions)
+```
+
+```{r}
+test_predictions %>%
+  ggplot() +
+  geom_density(aes(x = `.pred_Access to Finance`, fill = finance), 
+               alpha = 0.5)
+```
+
+
+Fitting and using your final model
+
+```{r}
+# the last model
+last_rf_mod <- 
+  rand_forest() %>% 
+  set_engine("ranger", importance = "impurity") %>% 
+  set_mode("classification")
+```
+
+
+
+```{r}
+rf_model <- 
+  # specify that the model is a random forest
+  rand_forest() %>%
+  # specify that the `mtry` parameter needs to be tuned
+  set_args(mtry = tune()) %>%
+  # select the engine/package that underlies the model
+  set_engine("ranger", importance = "impurity") %>%
+  # choose either the continuous regression or binary classification mode
+  set_mode("classification") 
+```
+
+the last workflow
+
+```{r}
+last_rf_workflow <- 
+  rf_workflow %>% 
+  update_model(last_rf_mod)
+```
+
+the last fit
+
+```{r}
+set.seed(6598)
+last_rf_fit <- 
+  last_rf_workflow %>% 
+  last_fit(data_split)
+
+last_rf_fit %>% 
+  collect_metrics()
+
+last_rf_fit %>% 
+  pluck(".workflow", 1) %>%   
+  extract_fit_parsnip() %>% 
+  vip(num_features = 20)
+```
+
+
+
+
+### Logistic Regression
+
+
+```{r}
+df <- read_dta(here("data", "master_data2.dta"))
+df <- df %>% select(finance, mobile_own, educ, iddir, 
+                    marital, religion, age, ag2, gender, hh_size, hh_size2, know_account,
+                    wage_self, credit_info, urban, bank_com, educ_com, lndis)  %>% drop_na()
+
+data<-as_factor(df)
+```
+
+
+
+```{r}
+set.seed(345)
+
+data_split <- initial_split(data, prop = 0.75, 
+                             strata = finance)
+
+data_training <- data_split %>% training()
+
+data_test <- data_split %>% testing()
+```
+
+
+
+
+
+```{r}
+data_recipe <- recipe(finance ~ ., data = data_training) %>% 
+  step_YeoJohnson(all_numeric(), -all_outcomes()) %>% 
+  step_normalize(all_numeric(), -all_outcomes()) %>% 
+  step_dummy(all_nominal(), -all_outcomes())
+
+data_recipe %>% 
+  prep() %>% 
+  bake(new_data = data_training)
+```
+
+
+
+model specification
+
+```{r}
+logistic_model <- logistic_reg() %>% 
+  set_engine('glm') %>% 
+  set_mode('classification')
+```
+
+
+
+create workflow
+
+```{r}
+data_wf <- workflow() %>% 
+  add_model(logistic_model) %>% 
+  add_recipe(data_recipe)
+```
+
+
+fit the model
+
+```{r}
+data_logistic_fit <- data_wf %>% 
+  fit(data = data_training)
+```
+
+
+exploring trained data
+
+```{r}
+data_trained_model <- data_logistic_fit %>% 
+  extract_fit_parsnip()
+```
+
+Variable importance
+
+```{r}
+vip(data_trained_model)
+```
+
+
+evaluate perfromance
+
+```{r}
+predictions_categories <- predict(data_logistic_fit, new_data = data_test)
+
+predictions_categories
+```
+
+
+
+```{r}
+predictions_probabilities <- predict(data_logistic_fit, new_data = data_test, type = 'prob')
+
+predictions_probabilities
+```
+
+
+combine together
+
+```{r}
+test_results <- data_test %>% select(finance) %>% 
+  bind_cols(predictions_categories) %>% 
+  bind_cols(predictions_probabilities)
+
+test_results
+```
+
+
+
+confusion matrix
+
+```{r}
+conf_mat(test_results, truth = finance, estimate = .pred_class)
+```
+
+
+
+f score
+
+```{r}
+f_meas(test_results, truth = finance, estimate = .pred_class)
+
+colnames(test_results)
+```
+
+
+ROC curve
+
+```{r}
+roc_curve(test_results, truth = finance, estimate = `.pred_Access to Finance`) %>%
+  autoplot()
+```
+
+
+```{r}
+roc_auc(test_results, truth = finance, `.pred_Access to Finance`)
+```
+
+
+
+### Linear Regression
+
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(vip) # for variable importance
+library(haven)
+```
+
+
+load data set
+
+```{r}
+df <- read_dta(here("data", "master_data2.dta"))
+df <- df %>% select(lntot, lneduc, lntot, finance, mobile_own, educ, iddir, 
+                    marital, religion, age, ag2, gender, hh_size, hh_size2, know_account,
+                    wage_self, credit_info, urban, bank_com, educ_com, lndis)  %>% drop_na()
+
+data<-as_factor(df)
+```
+
+
+```{r}
+set.seed(314)
+
+# Create a split object
+data_split <- initial_split(data, prop = 0.75, 
+                                   strata = lntot)
+
+# Build training data set
+data_training <- data_split %>% 
+  training()
+
+# Build testing data set
+data_test <- data_split %>% 
+  testing()
+```
+
+Model Specification
+
+```{r}
+lm_model <- linear_reg() %>% 
+  set_engine('lm') %>% # adds lm implementation of linear regression
+  set_mode('regression')
+#View object properties
+lm_model
+```
+
+Fitting to Training Data
+
+```{r}
+lm_fit <- lm_model %>% 
+  fit(lntot ~ ., data = data_training)
+# View lm_fit properties
+lm_fit
+```
+
+
+Exploring Training Results
+
+```{r}
+names(lm_fit)
+
+summary(lm_fit$fit)
+```
+
+
+These plots provide a check for the main assumptions of the linear regression model.
+
+```{r}
+par(mfrow=c(2,2)) # plot all 4 plots in one
+
+plot(lm_fit$fit, 
+     pch = 16,    # optional parameters to make points blue
+     col = '#006EA1')
+```
+
+Data frame of estimated coefficients
+
+```{r}
+pa<- tidy(lm_fit)
+view(pa)
+
+```
+
+Performance metrics on training data
+
+```{r}
+glance(lm_fit)
+```
+
+
+```{r}
+vip(lm_fit)
+```
+
+
+Evaluating Test Set Accuracy
+
+```{r}
+predict(lm_fit, new_data = data_test)
+
+data_test_results <- predict(lm_fit, new_data = data_test) %>% 
+  bind_cols(data_test)
+
+# View results
+data_test_results
+```
+
+Calculating RMSE and R2 on the Test Data
+
+RMSE on test set
+```{r}
+rmse(data_test_results, 
+     truth = lntot,
+     estimate = .pred)
+```
+
+
+R2 on test set
+
+```{r}
+rsq(data_test_results,
+    truth = lntot,
+    estimate = .pred)
+```
+
+R2 plot
+
+```{r}
+ggplot(data = data_test_results,
+       mapping = aes(x = .pred, y = lntot)) +
+  geom_point(color = '#006EA1') +
+  geom_abline(intercept = 0, slope = 1, color = 'orange') +
+  labs(title = 'Linear Regression Results - Consumption Test Set',
+       x = 'Predicted consumption',
+       y = 'Actual consumption')
+```
+
+
+
+
+## Deep learning
+
+## Text mining
+
+
+### Sentiment Analysis 
+
+Sentiment Analysis (SA) extracts information on emotion or opinion from natural language (Silge and Robinson 2017). Most forms of SA provides information about positive or negative polarity, e.g. whether a tweet is positive or negative.
+
+
+This tutorial leverages the data provided in the janeaustenr package. This package contains the complete text of Jane Austen's 6 completed, published novels, formatted to be convenient for text analysis.
+
+
+The tidytext package contains three sentiment lexicons in the sentiments dataset.
+
+
+The three lexicons are
+
+  - AFINN from Finn Årup Nielsen
+  - bing from Bing Liu and collaborators
+  - nrc from Saif Mohammad and Peter Turney
+
+```{r}
+library(tidytext)
+library(janeaustenr)
+library(dplyr)
+library(stringr)
+library(ggpubr)
+library(textdata)
+
+tidy_books <- austen_books() %>%
+  group_by(book) %>%
+  mutate(
+    linenumber = row_number(),
+    chapter = cumsum(str_detect(text, 
+                                regex("^chapter [\\divxlc]", 
+                                      ignore_case = TRUE)))) %>%
+  ungroup() %>%
+  unnest_tokens(word, text)
+```
+
+
+```{r}
+tidy_books %>% group_by(book) %>% count()
+```
+
+```{r}
+nrc_se <- get_sentiments("nrc")
+```
+
+```{r}
+nrc_se %>% group_by(sentiment) %>% count()
+```
+
+
+```{r}
+nrc_bing <- get_sentiments("bing")
+```
+
+```{r}
+nrc_bing %>% group_by(sentiment) %>% count()
+```
+
+
+```{r}
+nrc_afinn <- get_sentiments("afinn")
+```
+
+```{r}
+nrc_afinn %>% group_by(value) %>% count()
+```
+
+
+
+
+
+
+```{r}
+nrc_joy <- get_sentiments("nrc") %>% 
+  filter(sentiment == "joy")
+tidy_books %>%
+  filter(book == "Emma") %>%
+  inner_join(nrc_joy) %>%
+  count(word, sort = TRUE)
+```
+
+
+
+```{r}
+library(tidyr)
+jane_austen_sentiment <- tidy_books %>%
+  inner_join(get_sentiments("bing")) %>%
+  count(book, index = linenumber %/% 80, sentiment) %>%
+  pivot_wider(names_from = sentiment, values_from = n, values_fill = 0) %>%
+  mutate(sentiment = positive - negative)
+```
+
+
+
+create an index that breaks up each book by 500 words; this is the approximate number of words on every two pages so this will allow us to assess changes in sentiment even within chapters
+
+
+```{r}
+library(ggplot2)
+
+ggplot(jane_austen_sentiment, aes(index, sentiment, fill = book)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~book, ncol = 2, scales = "free_x") 
+```
+
+
+```{r}
+pride_prejudice <- tidy_books %>% 
+  filter(book == "Pride & Prejudice")
+
+pride_prejudice
+
+```
+
+
+```{r}
+afinn <- pride_prejudice %>% 
+  inner_join(get_sentiments("afinn")) %>% 
+  group_by(index = linenumber %/% 80) %>% 
+  summarise(sentiment = sum(value)) %>% 
+  mutate(method = "AFINN")
+
+bing_and_nrc <- bind_rows(
+  pride_prejudice %>% 
+    inner_join(get_sentiments("bing")) %>%
+    mutate(method = "Bing et al."),
+  pride_prejudice %>% 
+    inner_join(get_sentiments("nrc") %>% 
+                 filter(sentiment %in% c("positive", 
+                                         "negative"))
+    ) %>%
+    mutate(method = "NRC")) %>%
+  count(method, index = linenumber %/% 80, sentiment) %>%
+  pivot_wider(names_from = sentiment,
+              values_from = n,
+              values_fill = 0) %>% 
+  mutate(sentiment = positive - negative)
+```
+
+
+
+```{r}
+bind_rows(afinn, 
+          bing_and_nrc) %>%
+  ggplot(aes(index, sentiment, fill = method)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~method, ncol = 1, scales = "free_y")
+```
+
+
+```{r}
+get_sentiments("nrc") %>% 
+  filter(sentiment %in% c("positive", "negative")) %>% 
+  count(sentiment)
+```
+
+
+```{r}
+get_sentiments("bing") %>% 
+  count(sentiment)
+```
+
+
+```{r}
+bing_word_counts <- tidy_books %>%
+  inner_join(get_sentiments("bing")) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  ungroup()
+```
+
+
+```{r}
+bing_word_counts %>%
+  group_by(sentiment) %>%
+  slice_max(n, n = 10) %>% 
+  ungroup() %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot(aes(n, word, fill = sentiment)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~sentiment, scales = "free_y") +
+  labs(x = "Contribution to sentiment",
+       y = NULL) +
+  theme_pubr()
+```
+
+
+```{r}
+custom_stop_words <- bind_rows(tibble(word = c("miss"),  
+                                      lexicon = c("custom")), 
+                               stop_words)
+```
+
+
+
+```{r}
+library(wordcloud)
+tidy_books %>%
+  anti_join(stop_words) %>%
+  count(word) %>%
+  with(wordcloud(word, n, max.words = 100))
+```
+
+
+```{r}
+library(reshape2)
+
+tidy_books %>%
+  inner_join(get_sentiments("bing")) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  comparison.cloud(colors = c("gray20", "gray80"),
+                   max.words = 100)
+```
+
+
+
