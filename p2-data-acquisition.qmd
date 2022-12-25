@@ -5,3 +5,15 @@ As you might imagine, you must acquire your data before conducting an analysis. 
 - **Included Datasets**- R comes with a variety of datasets already built in. This chapter will teach you how to view the catalog of included datasets, preview individual datasets, and begin working with the data.
 - **Import from Spreadsheets**- Most R users will have to work with spreadsheets at some point in their careers. This chapter will teach you how to import data from spreadsheets whether it's in a .csv or .xlsx file and get the imported data into a format that's easy to work with.
 - **Working with APIs**- API stands for Application Programming Interface. These sorts of tools are commonly used to programmatically pull data from a third party resource. This chapter demonstrates how you can begin to leverage these tools in your own workflows.
+
+
+# Part III: Data Preparation
+
+Should we add a feature engineering chapter to this part?
+
+Most data will not be received in the precise format you need to begin your analysis. The process of data preparation is where you will structure and add features to your data.
+
+- **Data Cleaning**- This chapter will cover the basics of cleaning your data including renaming variables, splitting text, replacing values, dropping columns, and dropping rows. These basic actions will be essential to preparing your data prior to developing insights.
+- **Handling Missing Data**- You may encounter situations while analysing data that some of your data are missing. This chapter will cover best practices in regards to handling these situations as well as the technical details on how to remedy the data.
+- **Outliers**- Outliers are observations that fall outside the expected scope of the dataset. It's important to identify outliers in your data and determine the necessary treatment for them before moving into the next analysis phase.
+- **Organizing Data**- This chapter will focus on sorting, filtering, and grouping your datasets.

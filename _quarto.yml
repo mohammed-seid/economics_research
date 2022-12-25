@@ -8,7 +8,7 @@ project:
 book:
   title: "Empirical Research in Economics"
   author: "Mohammed Seid Hussen"
-  date: "`r Sys.Date()`"
+  date: today
   cover-image: cover.png
   repo-url: https://github.com/mohammed-seid/economics_research.git
   repo-actions: [edit]
@@ -22,29 +22,14 @@ book:
   chapters:
     - part: index.qmd
       chapters:
-      - p0c1-what-is-r.qmd
-      - p0c2-what-is-data-analysis.qmd
-      - p0c3-setup.qmd
+      - p0c1-intro.qmd
     - part: p1-fundamentals.qmd
       chapters:
         - p1c1-r-studio.qmd
-        - p1c2-programming-basics.qmd
-        - p1c3-data-types.qmd
-        - p1c4-data-structures.qmd
-        - p1exercises.qmd
     - part: p2-data-acquisition.qmd
       chapters:
-        - p2c1-included-datasets.qmd
-        - p2c2-import-from-spreadsheets.qmd
-        - p2c3-working-with-apis.qmd
-        - p2exercises.qmd
-    - part: p3-data-preparation.qmd
-      chapters: 
-        - p3c1-data-cleaning.qmd
-        - p3c2-handling-missing-data.qmd
-        - p3c3-outliers.qmd
-        - p3c4-organizing-data.qmd
-        - p3exercises.qmd
+        - p2c1-import-datasets.qmd
+        - p2c2-data-cleaning.qmd
     - part: p4-developing-insights.qmd
       chapters:
         - p4c1-summary-statistics.qmd
@@ -68,6 +53,6 @@ format:
   html:
     theme: cosmo
   pdf:
-    documentclass: book
+    documentclass: scrreprt
 
 

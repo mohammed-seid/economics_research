@@ -13,11 +13,11 @@
 
 > "There is synthesis when, in combining therein judgments that are made known to us from simpler relations, one deduces judgments from them relative to more complicated relations. There is analysis when from a complicated truth one deduces more simple truths."  <br><br> -André-Marie Ampère [@Hofmann96]
 
-Everyone is a data analyst. The purpose of this book is to inspire and enable anyone who reads it to reconsider the methods they currently employ to analyse data. This is not to suggest that the methodologies outlined will be useful or sufficient for everyone who reads it. Some analyses can be performed quickly without the need for additional computation while others will require advanced analytics techniques not outlined in this book; however, the aspiration is that all will be equipped with novel tools and ideas for approaching data analysis.
+The purpose of this book is to inspire and enable anyone who reads it to reconsider the methods they currently employing to conduct empirical economics research. This is not to suggest that the methodologies outlined will be useful or sufficient for everyone who reads it. Some analyses can be performed quickly without the need for additional computation while others will require advanced analytics techniques not outlined in this book; however, the aspiration is that all will be equipped with novel tools and ideas for approaching economic research.
 
 ## Prerequisites
 
-No prior knowledge is required to begin this book. The content will start at the very beginning by showing you how to set up your R environment and the basics of programming in R. By the end of the book, you will be able to perform intermediate analytics techniques such as linear regresion and automatic report generation.
+Basic statistical and econometrics knowledge is required to begin this book. 
 
 You will need an environment which you use to run your code. It is recommended that you download R and R Studio locally for this requirement. This book will walk you through how to do that as well as offer alternatives if that is not an option for you.
 
@@ -27,7 +27,7 @@ You will need an environment which you use to run your code. It is recommended t
 - **Part II (Empirical Research)** will teach you how to conduct empirical economics research with special focus on causal analysis.
 - **Part III (Geo spatial analysis)** will show you how to convert geospatial data into visualization and how to conduct spatial analysis in R
 - **Part IV (Advanced R)** goes through advanced R programing and its implication in economics research 
-- **Part V (Miscellaneous)** demonstrates the importance of R programming for several studies from internaltional trade to finance.
+- **Part V (Miscellaneous)** demonstrates the importance of R programming for several studies from international trade to finance.
 
 Each part will contain several chapters which cover specific ideas related to the overarching topic. At the end of each of these chapters you will find additional resources for you to use to dive deeper into the ideas.
 
